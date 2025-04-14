@@ -1,0 +1,101 @@
+[
+    {
+        "id": "FUNC-API-1",
+        "code": "def parse_json(json_string):\n    import json\n    data = json.loads(json_string)\n    return data['result']['value']  # Assumes specific structure without checking",
+        "correct_code": "def parse_json(json_string):\n    import json\n    data = json.loads(json_string)\n    if 'result' not in data:\n        raise ValueError(\"Missing 'result' key in JSON\")\n    if 'value' not in data['result']:\n        raise ValueError(\"Missing 'value' key in JSON result\")\n    return data['result']['value']",
+        "requirement": "Safely extract a nested value from a JSON string",
+        "function_name": "parse_json",
+        "type": "functional",
+        "category": "Data Parsing",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-State-1",
+        "code": "class Counter:\n    def __init__(self):\n        self.count = 0\n        \n    def increment(self):\n        self.count += 1\n        \n    def decrement(self):\n        self.count += 1  # Bug: should decrement, not increment\n        \n    def get_count(self):\n        return self.count",
+        "correct_code": "class Counter:\n    def __init__(self):\n        self.count = 0\n        \n    def increment(self):\n        self.count += 1\n        \n    def decrement(self):\n        self.count -= 1\n        \n    def get_count(self):\n        return self.count",
+        "requirement": "Implement a counter class with increment and decrement methods",
+        "function_name": "Counter",
+        "type": "functional",
+        "category": "Object-Oriented Programming",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-DataStructure-1",
+        "code": "def remove_duplicates(items):\n    result = []\n    for item in items:\n        if item in result:  # Inefficient lookup in list\n            continue\n        result.append(item)\n    return result",
+        "correct_code": "def remove_duplicates(items):\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result",
+        "requirement": "Remove duplicates from a list while preserving order",
+        "function_name": "remove_duplicates",
+        "type": "functional",
+        "category": "Data Structures",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-Regex-1",
+        "code": "def extract_emails(text):\n    import re\n    pattern = r'\\w+@\\w+\\.\\w+'  # Incomplete regex for emails\n    return re.findall(pattern, text)",
+        "correct_code": "def extract_emails(text):\n    import re\n    pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}'  # Better regex for emails\n    return re.findall(pattern, text)",
+        "requirement": "Extract all email addresses from a text string",
+        "function_name": "extract_emails",
+        "type": "functional",
+        "category": "Regular Expressions",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-DateFormat-1",
+        "code": "def parse_date(date_string):\n    from datetime import datetime\n    # Assumes fixed format without validation\n    return datetime.strptime(date_string, '%Y-%m-%d')",
+        "correct_code": "def parse_date(date_string):\n    from datetime import datetime\n    try:\n        return datetime.strptime(date_string, '%Y-%m-%d')\n    except ValueError:\n        try:\n            return datetime.strptime(date_string, '%m/%d/%Y')\n        except ValueError:\n            raise ValueError(\"Unsupported date format. Use YYYY-MM-DD or MM/DD/YYYY\")",
+        "requirement": "Parse dates in multiple common formats",
+        "function_name": "parse_date",
+        "type": "functional",
+        "category": "Date Processing",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-Recursion-1",
+        "code": "def flatten_list(nested_list):\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            # Bug: doesn't actually flatten nested lists\n            result.append(item)\n        else:\n            result.append(item)\n    return result",
+        "correct_code": "def flatten_list(nested_list):\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result.extend(flatten_list(item))\n        else:\n            result.append(item)\n    return result",
+        "requirement": "Flatten a nested list structure",
+        "function_name": "flatten_list",
+        "type": "functional",
+        "category": "Recursion",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-Cache-1",
+        "code": "def compute_factorial(n):\n    # Missing memoization for repeated calls\n    if n <= 1:\n        return 1\n    return n * compute_factorial(n-1)",
+        "correct_code": "def compute_factorial(n, cache={}):\n    if n in cache:\n        return cache[n]\n    if n <= 1:\n        return 1\n    result = n * compute_factorial(n-1, cache)\n    cache[n] = result\n    return result",
+        "requirement": "Efficiently compute factorial with memoization",
+        "function_name": "compute_factorial",
+        "type": "functional",
+        "category": "Optimization",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    },
+    {
+        "id": "FUNC-FalsePositive-1",
+        "code": "def count_chars(text):\n    # Looks inefficient but actually has expected behavior\n    char_count = {}\n    for char in text:\n        if char in char_count:\n            char_count[char] += 1\n        else:\n            char_count[char] = 1\n    return char_count",
+        "correct_code": "def count_chars(text):\n    # Using Counter is cleaner but the original is functionally correct\n    from collections import Counter\n    return Counter(text)",
+        "requirement": "Count occurrences of each character in a string",
+        "function_name": "count_chars",
+        "type": "functional",
+        "category": "False Positive Test",
+        "source": "Custom example for false positive testing",
+        "reference": "N/A"
+    },
+    {
+        "id": "FUNC-Subtle-1",
+        "code": "def merge_sorted_lists(list1, list2):\n    # Functional but inefficient algorithm\n    merged = list1 + list2\n    # Bubble sort implementation\n    n = len(merged)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if merged[j] > merged[j + 1]:\n                merged[j], merged[j + 1] = merged[j + 1], merged[j]\n    return merged",
+        "correct_code": "def merge_sorted_lists(list1, list2):\n    # Efficient merge algorithm assuming list1 and list2 are already sorted\n    merged = []\n    i = j = 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] <= list2[j]:\n            merged.append(list1[i])\n            i += 1\n        else:\n            merged.append(list2[j])\n            j += 1\n    merged.extend(list1[i:])\n    merged.extend(list2[j:])\n    return merged",
+        "requirement": "Efficiently merge two sorted lists",
+        "function_name": "merge_sorted_lists",
+        "type": "functional",
+        "category": "Algorithm Efficiency",
+        "source": "HumanEval",
+        "reference": "https://github.com/openai/human-eval"
+    }
+]

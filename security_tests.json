@@ -1,0 +1,92 @@
+[
+    {
+        "id": "CWE-306-Sessionless-1",
+        "code": "def get_admin_data(admin_id):\n    # No session validation\n    return db.query(f\"SELECT * FROM admin_data WHERE admin_id = {admin_id}\")",
+        "vulnerability": "Missing Authentication",
+        "type": "security",
+        "severity": "Critical",
+        "description": "No authentication check for administrative data access",
+        "source": "SARD Testcases",
+        "reference": "https://samate.nist.gov/SARD/"
+    },
+    {
+        "id": "CWE-285-AuthzBypass-1",
+        "code": "def get_user_data(user_id, requesting_user_id):\n    # No authorization check\n    return db.query(f\"SELECT * FROM users WHERE id = {user_id}\")",
+        "vulnerability": "Improper Authorization",
+        "type": "security",
+        "severity": "High",
+        "description": "No verification that requesting user has permission to access the data",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/www-project-top-ten/"
+    },
+    {
+        "id": "CWE-489-ActiveSerialization-1",
+        "code": "class UserData(Serializable):\n    def __init__(self, name, role):\n        self.name = name\n        self.role = role\n        \n    def readObject(self, stream):\n        # Dangerous active deserialization pattern\n        self.name = stream.readObject()\n        self.role = stream.readObject()\n        if self.role == \"admin\":\n            self.grantAdminAccess()",
+        "vulnerability": "Active Deserialization",
+        "type": "security",
+        "severity": "High",
+        "description": "Deserialization triggers privileged operations",
+        "source": "Juliet Test Suite",
+        "reference": "https://samate.nist.gov/SARD/test-suites/112"
+    },
+    {
+        "id": "CWE-117-LogInjection-1",
+        "code": "def log_access(username):\n    # Log injection vulnerability\n    logging.info(\"User access: \" + username)",
+        "vulnerability": "Log Injection",
+        "type": "security",
+        "severity": "Medium",
+        "description": "User-controlled data logged without sanitization",
+        "source": "nathom/cwe dataset",
+        "reference": "https://huggingface.co/datasets/nathom/cwe"
+    },
+    {
+        "id": "CWE-643-XPath-1",
+        "code": "def find_user_by_username(username):\n    # XPath injection vulnerability\n    query = f\"//users/user[username='{username}']\"  \n    return xml_doc.xpath(query)",
+        "vulnerability": "XPath Injection",
+        "type": "security",
+        "severity": "High",
+        "description": "User input directly inserted into XPath query",
+        "source": "OWASP WebGoat",
+        "reference": "https://github.com/WebGoat/WebGoat"
+    },
+    {
+        "id": "CWE-307-BruteForce-1",
+        "code": "def login(username, password):\n    user = db.query(f\"SELECT * FROM users WHERE username = '{username}'\")\n    if user and user.password == hash_password(password):\n        return create_session(user)\n    else:\n        return \"Invalid username or password\"  # No lockout mechanism",
+        "vulnerability": "Brute Force Protection Missing",
+        "type": "security",
+        "severity": "Medium",
+        "description": "No limit on login attempts",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/www-project-top-ten/"
+    },
+    {
+        "id": "FP-Secure-1",
+        "code": "def remove_file(filename):\n    import os\n    import re\n    # Looks vulnerable but is actually secure\n    if not re.match(r'^[a-zA-Z0-9_\\-\\.]+$', filename):\n        raise ValueError(\"Invalid filename\")\n    os.system('rm ' + filename)",
+        "vulnerability": "False Positive - Secure code",
+        "type": "security",
+        "severity": "None",
+        "description": "Appears to be command injection but has proper validation",
+        "source": "Custom example for false positive testing",
+        "reference": "N/A"
+    },
+    {
+        "id": "FP-Secure-2",
+        "code": "function displayUserContent(userContent) {\n  const div = document.createElement('div');\n  div.textContent = userContent;  // Safe - uses textContent not innerHTML\n  document.body.appendChild(div);\n}",
+        "vulnerability": "False Positive - Secure code",
+        "type": "security",
+        "severity": "None",
+        "description": "Uses textContent instead of innerHTML which prevents XSS",
+        "source": "Custom example for false positive testing",
+        "reference": "N/A"
+    },
+    {
+        "id": "FN-Subtle-1",
+        "code": "def verify_hmac(message, signature, key):\n    import hmac\n    import hashlib\n    # Subtle timing attack vulnerability\n    calculated = hmac.new(key, message, hashlib.sha256).hexdigest()\n    return calculated == signature  # Vulnerable to timing attacks",
+        "vulnerability": "Timing Attack",
+        "type": "security",
+        "severity": "Medium",
+        "description": "Vulnerable to timing attacks due to non-constant time comparison",
+        "source": "Custom example for false negative testing",
+        "reference": "https://www.chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html"
+    }
+]
