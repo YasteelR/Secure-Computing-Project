@@ -1,0 +1,302 @@
+[
+  {
+    "id": "CWE-89-SQLi-1",
+    "code": "def get_user(username):\n    query = f\"SELECT * FROM users WHERE username = '{username}'\"\n    return db.execute(query).fetchone()",
+    "vulnerability": "SQL Injection",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Direct string concatenation in SQL query allows injection attacks",
+    "source": "OWASP WebGoat",
+    "reference": "https://owasp.org/www-project-webgoat/"
+  },
+  {
+    "id": "CWE-79-XSS-1",
+    "code": "def display_comment(comment):\n    return f\"<div>{comment}</div>\"",
+    "vulnerability": "Cross-Site Scripting (XSS)",
+    "type": "security",
+    "severity": "High",
+    "description": "User input displayed without HTML encoding",
+    "source": "DVWA",
+    "reference": "https://dvwa.co.uk/"
+  },
+  {
+    "id": "CWE-78-OSCommand-1",
+    "code": "def ping_host(hostname):\n    import os\n    return os.system(f\"ping -c 1 {hostname}\")",
+    "vulnerability": "OS Command Injection",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Unsanitized input passed to system command",
+    "source": "SARD Testcases",
+    "reference": "https://samate.nist.gov/SARD/"
+  },
+  {
+    "id": "CWE-22-PathTraversal-1",
+    "code": "def read_file(filename):\n    with open(f\"/uploads/{filename}\", 'r') as f:\n        return f.read()",
+    "vulnerability": "Path Traversal",
+    "type": "security",
+    "severity": "High",
+    "description": "No validation of file path allows directory traversal",
+    "source": "OWASP Top 10",
+    "reference": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "id": "CWE-798-HardcodedCreds-1",
+    "code": "def connect_database():\n    import pymongo\n    client = pymongo.MongoClient('mongodb://admin:password123@localhost:27017/')\n    return client.myapp",
+    "vulnerability": "Hardcoded Credentials",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Database credentials hardcoded in source code",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/798.html"
+  },
+  {
+    "id": "CWE-306-NoAuth-1",
+    "code": "def delete_user(user_id):\n    return db.execute(f\"DELETE FROM users WHERE id = {user_id}\")",
+    "vulnerability": "Missing Authentication",
+    "type": "security",
+    "severity": "Critical",
+    "description": "No authentication check for destructive operation",
+    "source": "SANS Top 25",
+    "reference": "https://www.sans.org/top25-software-errors/"
+  },
+  {
+    "id": "CWE-352-CSRF-1",
+    "code": "def transfer_money(from_account, to_account, amount):\n    # No CSRF token validation\n    return execute_transfer(from_account, to_account, amount)",
+    "vulnerability": "Cross-Site Request Forgery",
+    "type": "security",
+    "severity": "High",
+    "description": "State-changing operation without CSRF protection",
+    "source": "OWASP WebGoat",
+    "reference": "https://owasp.org/www-project-webgoat/"
+  },
+  {
+    "id": "CWE-502-Deserialization-1",
+    "code": "def load_user_data(serialized_data):\n    import pickle\n    return pickle.loads(serialized_data)",
+    "vulnerability": "Insecure Deserialization",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Deserializing untrusted data with pickle",
+    "source": "OWASP Top 10",
+    "reference": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "id": "CWE-285-ImproperAccess-1",
+    "code": "def get_salary(employee_id, requester_id):\n    # No authorization check if requester can view this salary\n    return db.query(f\"SELECT salary FROM employees WHERE id = {employee_id}\")",
+    "vulnerability": "Improper Access Control",
+    "type": "security",
+    "severity": "High",
+    "description": "No authorization check for sensitive data access",
+    "source": "DVWA",
+    "reference": "https://dvwa.co.uk/"
+  },
+  {
+    "id": "CWE-327-WeakCrypto-1",
+    "code": "def hash_password(password):\n    import hashlib\n    return hashlib.md5(password.encode()).hexdigest()",
+    "vulnerability": "Weak Cryptography",
+    "type": "security",
+    "severity": "High",
+    "description": "Using MD5 for password hashing without salt",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/327.html"
+  },
+  {
+    "id": "CWE-209-InfoExposure-1",
+    "code": "def login(username, password):\n    try:\n        user = authenticate(username, password)\n        return {'success': True, 'user': user}\n    except Exception as e:\n        return {'success': False, 'error': str(e)}",
+    "vulnerability": "Information Exposure",
+    "type": "security",
+    "severity": "Medium",
+    "description": "Detailed error messages expose system information",
+    "source": "SANS Top 25",
+    "reference": "https://www.sans.org/top25-software-errors/"
+  },
+  {
+    "id": "CWE-434-FileUpload-1",
+    "code": "def upload_file(file_data, filename):\n    with open(f\"/uploads/{filename}\", 'wb') as f:\n        f.write(file_data)",
+    "vulnerability": "Unrestricted File Upload",
+    "type": "security",
+    "severity": "Critical",
+    "description": "No validation of file type or content",
+    "source": "OWASP WebGoat",
+    "reference": "https://owasp.org/www-project-webgoat/"
+  },
+  {
+    "id": "CWE-319-ClearText-1",
+    "code": "def send_credentials(username, password):\n    import requests\n    return requests.post('http://api.example.com/login', \n                        data={'user': username, 'pass': password})",
+    "vulnerability": "Cleartext Transmission",
+    "type": "security",
+    "severity": "High",
+    "description": "Sensitive data transmitted over unencrypted connection",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/319.html"
+  },
+  {
+    "id": "CWE-190-IntegerOverflow-1",
+    "code": "def allocate_buffer(size):\n    # No bounds checking on size\n    return bytearray(size * 1024)",
+    "vulnerability": "Integer Overflow",
+    "type": "security",
+    "severity": "Medium",
+    "description": "No validation of size parameter can cause overflow",
+    "source": "SARD Testcases",
+    "reference": "https://samate.nist.gov/SARD/"
+  },
+  {
+    "id": "CWE-94-CodeInjection-1",
+    "code": "def evaluate_expression(expr):\n    return eval(expr)",
+    "vulnerability": "Code Injection",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Direct evaluation of user input allows code execution",
+    "source": "OWASP Top 10",
+    "reference": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "id": "CWE-120-BufferOverflow-1",
+    "code": "def process_input(user_input):\n    buffer = bytearray(100)\n    for i, char in enumerate(user_input):\n        buffer[i] = ord(char)  # No bounds checking\n    return buffer",
+    "vulnerability": "Buffer Overflow",
+    "type": "security",
+    "severity": "High",
+    "description": "No bounds checking when copying user input",
+    "source": "SANS Top 25",
+    "reference": "https://www.sans.org/top25-software-errors/"
+  },
+  {
+    "id": "CWE-601-OpenRedirect-1",
+    "code": "def redirect_user(redirect_url):\n    from flask import redirect\n    return redirect(redirect_url)",
+    "vulnerability": "Open Redirect",
+    "type": "security",
+    "severity": "Medium",
+    "description": "Unvalidated redirect allows phishing attacks",
+    "source": "DVWA",
+    "reference": "https://dvwa.co.uk/"
+  },
+  {
+    "id": "CWE-256-PasswordStorage-1",
+    "code": "def store_password(username, password):\n    db.execute(f\"INSERT INTO users (username, password) VALUES ('{username}', '{password}')\")",
+    "vulnerability": "Unprotected Password Storage",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Password stored in plaintext",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/256.html"
+  },
+  {
+    "id": "CWE-613-SessionFixation-1",
+    "code": "def login(username, password):\n    if authenticate(username, password):\n        session['user'] = username\n        # Session ID not regenerated after login\n        return True\n    return False",
+    "vulnerability": "Session Fixation",
+    "type": "security",
+    "severity": "Medium",
+    "description": "Session ID not regenerated after authentication",
+    "source": "OWASP WebGoat",
+    "reference": "https://owasp.org/www-project-webgoat/"
+  },
+  {
+    "id": "CWE-732-IncorrectPermissions-1",
+    "code": "def create_temp_file(data):\n    import tempfile\n    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:\n        f.write(data)\n        return f.name  # File created with default permissions (potentially world-readable)",
+    "vulnerability": "Incorrect Default Permissions",
+    "type": "security",
+    "severity": "Medium",
+    "description": "Temporary file created with overly permissive defaults",
+    "source": "SARD Testcases",
+    "reference": "https://samate.nist.gov/SARD/"
+  },
+  {
+    "id": "CWE-326-WeakEncryption-1",
+    "code": "def encrypt_data(data, key):\n    from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes\n    cipher = Cipher(algorithms.DES(key), modes.ECB())\n    encryptor = cipher.encryptor()\n    return encryptor.update(data) + encryptor.finalize()",
+    "vulnerability": "Inadequate Encryption Strength",
+    "type": "security",
+    "severity": "High",
+    "description": "Using deprecated DES encryption with ECB mode",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/326.html"
+  },
+  {
+    "id": "CWE-829-LocalFileInclusion-1",
+    "code": "def include_template(template_name):\n    with open(f\"templates/{template_name}.html\", 'r') as f:\n        return f.read()",
+    "vulnerability": "Local File Inclusion",
+    "type": "security",
+    "severity": "High",
+    "description": "Unvalidated file inclusion allows access to arbitrary files",
+    "source": "DVWA",
+    "reference": "https://dvwa.co.uk/"
+  },
+  {
+    "id": "CWE-287-ImproperAuth-1",
+    "code": "def admin_panel(username, password):\n    if username == 'admin' and len(password) > 8:\n        return access_admin_functions()\n    return 'Access denied'",
+    "vulnerability": "Improper Authentication",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Weak password validation for admin access",
+    "source": "OWASP Top 10",
+    "reference": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "id": "CWE-770-ResourceExhaustion-1",
+    "code": "def process_requests(requests):\n    results = []\n    for request in requests:  # No limit on number of requests\n        results.append(expensive_operation(request))\n    return results",
+    "vulnerability": "Allocation without Limits",
+    "type": "security",
+    "severity": "Medium",
+    "description": "No rate limiting or resource bounds checking",
+    "source": "SANS Top 25",
+    "reference": "https://www.sans.org/top25-software-errors/"
+  },
+  {
+    "id": "CWE-611-XXE-1",
+    "code": "def parse_xml(xml_data):\n    import xml.etree.ElementTree as ET\n    root = ET.fromstring(xml_data)  # Vulnerable to XXE\n    return root.text",
+    "vulnerability": "XML External Entity (XXE)",
+    "type": "security",
+    "severity": "High",
+    "description": "XML parser configured to process external entities",
+    "source": "OWASP WebGoat",
+    "reference": "https://owasp.org/www-project-webgoat/"
+  },
+  {
+    "id": "CWE-20-InputValidation-1",
+    "code": "def calculate_discount(price, discount_percent):\n    discount = price * (discount_percent / 100)\n    return price - discount",
+    "vulnerability": "Improper Input Validation",
+    "type": "security",
+    "severity": "Medium",
+    "description": "No validation of discount percentage allows negative values",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/20.html"
+  },
+  {
+    "id": "CWE-525-InfoExposure-1",
+    "code": "def get_config():\n    config = {\n        'database_url': 'postgres://user:secret@localhost/db',\n        'api_key': 'sk-1234567890abcdef',\n        'debug': True\n    }\n    return config",
+    "vulnerability": "Information Exposure Through Browser Caching",
+    "type": "security",
+    "severity": "Medium",
+    "description": "Sensitive configuration exposed to client",
+    "source": "SARD Testcases",
+    "reference": "https://samate.nist.gov/SARD/"
+  },
+  {
+    "id": "CWE-400-ResourceConsumption-1",
+    "code": "def compress_data(data):\n    import zlib\n    # No size limit on compression\n    return zlib.compress(data, 9)",
+    "vulnerability": "Uncontrolled Resource Consumption",
+    "type": "security",
+    "severity": "Medium",
+    "description": "No limits on compression operation can cause DoS",
+    "source": "DVWA",
+    "reference": "https://dvwa.co.uk/"
+  },
+  {
+    "id": "CWE-915-DynamicCode-1",
+    "code": "def load_plugin(plugin_name):\n    import importlib\n    # Dynamically importing user-controlled module name\n    module = importlib.import_module(plugin_name)\n    return module.execute()",
+    "vulnerability": "Improperly Controlled Modification of Code",
+    "type": "security",
+    "severity": "Critical",
+    "description": "Dynamic import of user-controlled module names",
+    "source": "OWASP Top 10",
+    "reference": "https://owasp.org/www-project-top-ten/"
+  },
+  {
+    "id": "CWE-338-WeakRandom-1",
+    "code": "def generate_session_token():\n    import random\n    import string\n    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))",
+    "vulnerability": "Use of Cryptographically Weak PRNG",
+    "type": "security",
+    "severity": "High",
+    "description": "Using non-cryptographic random for security tokens",
+    "source": "CWE Database",
+    "reference": "https://cwe.mitre.org/data/definitions/338.html"
+  }
+]
