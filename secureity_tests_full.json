@@ -1,0 +1,152 @@
+[
+    {
+        "id": "SEC-001",
+        "code": "def login(username, password):\n    user = db.query(f\"SELECT * FROM users WHERE username = '{username}'\")\n    if user and user.password == password:\n        return create_session(user)\n    return \"Invalid credentials\"",
+        "vulnerability": "SQL Injection",
+        "type": "security",
+        "severity": "High",
+        "description": "Direct string concatenation in SQL query allows injection attacks",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/Top10/A03_2021-Injection/"
+    },
+    {
+        "id": "SEC-002",
+        "code": "def upload_image(filename, data):\n    path = f\"/uploads/{filename}\"\n    with open(path, 'wb') as f:\n        f.write(data)\n    return path",
+        "vulnerability": "Path Traversal",
+        "type": "security",
+        "severity": "High",
+        "description": "No validation of filename allows directory traversal attacks",
+        "source": "CWE-22",
+        "reference": "https://cwe.mitre.org/data/definitions/22.html"
+    },
+    {
+        "id": "SEC-003",
+        "code": "def process_xml(xml_data):\n    import xml.etree.ElementTree as ET\n    root = ET.fromstring(xml_data)\n    return root.find('content').text",
+        "vulnerability": "XXE Injection",
+        "type": "security",
+        "severity": "High",
+        "description": "XML parsing without disabling external entities",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing"
+    },
+    {
+        "id": "SEC-004",
+        "code": "def run_command(cmd):\n    import os\n    return os.system(f\"ls {cmd}\")",
+        "vulnerability": "Command Injection",
+        "type": "security",
+        "severity": "Critical",
+        "description": "Direct command execution without sanitization",
+        "source": "CWE-78",
+        "reference": "https://cwe.mitre.org/data/definitions/78.html"
+    },
+    {
+        "id": "SEC-005",
+        "code": "def generate_token():\n    import random\n    return str(random.randint(100000, 999999))",
+        "vulnerability": "Weak Random Number Generation",
+        "type": "security",
+        "severity": "Medium",
+        "description": "Predictable random number generation for security tokens",
+        "source": "CWE-338",
+        "reference": "https://cwe.mitre.org/data/definitions/338.html"
+    },
+    {
+        "id": "SEC-006",
+        "code": "def hash_password(password):\n    import hashlib\n    return hashlib.md5(password.encode()).hexdigest()",
+        "vulnerability": "Weak Cryptographic Hash",
+        "type": "security",
+        "severity": "High",
+        "description": "MD5 is cryptographically broken and unsuitable for password hashing",
+        "source": "CWE-327",
+        "reference": "https://cwe.mitre.org/data/definitions/327.html"
+    },
+    {
+        "id": "SEC-007",
+        "code": "def display_user_comment(comment):\n    return f\"<div>{comment}</div>\"",
+        "vulnerability": "XSS",
+        "type": "security",
+        "severity": "Medium",
+        "description": "Unescaped user input in HTML output",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/Top10/A03_2021-Injection/"
+    },
+    {
+        "id": "SEC-008",
+        "code": "def load_config(data):\n    import pickle\n    return pickle.loads(data)",
+        "vulnerability": "Insecure Deserialization",
+        "type": "security",
+        "severity": "Critical",
+        "description": "Pickle deserialization allows arbitrary code execution",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/"
+    },
+    {
+        "id": "SEC-009",
+        "code": "def check_access(user_id, resource_id):\n    if user_id > 0:\n        return True\n    return False",
+        "vulnerability": "Broken Access Control",
+        "type": "security",
+        "severity": "High",
+        "description": "Insufficient access control checking",
+        "source": "OWASP Top 10",
+        "reference": "https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
+    },
+    {
+        "id": "SEC-010",
+        "code": "def store_session(session_id, user_data):\n    sessions[session_id] = user_data\n    return session_id",
+        "vulnerability": "Session Fixation",
+        "type": "security",
+        "severity": "Medium",
+        "description": "No session regeneration after authentication",
+        "source": "CWE-384",
+        "reference": "https://cwe.mitre.org/data/definitions/384.html"
+    },
+    {
+        "id": "SEC-011",
+        "code": "def encrypt_data(data, key):\n    from Crypto.Cipher import DES\n    cipher = DES.new(key, DES.MODE_ECB)\n    return cipher.encrypt(data)",
+        "vulnerability": "Weak Encryption",
+        "type": "security",
+        "severity": "High",
+        "description": "DES encryption with ECB mode is cryptographically weak",
+        "source": "CWE-327",
+        "reference": "https://cwe.mitre.org/data/definitions/327.html"
+    },
+    {
+        "id": "SEC-012",
+        "code": "def validate_input(user_input):\n    if len(user_input) < 100:\n        return True\n    return False",
+        "vulnerability": "Insufficient Input Validation",
+        "type": "security",
+        "severity": "Medium",
+        "description": "Length-only validation is insufficient",
+        "source": "CWE-20",
+        "reference": "https://cwe.mitre.org/data/definitions/20.html"
+    },
+    {
+        "id": "SEC-013",
+        "code": "def log_error(error_msg, user_input):\n    import logging\n    logging.error(f\"Error processing: {user_input} - {error_msg}\")",
+        "vulnerability": "Log Injection",
+        "type": "security",
+        "severity": "Low",
+        "description": "Unsanitized user input in log messages",
+        "source": "CWE-117",
+        "reference": "https://cwe.mitre.org/data/definitions/117.html"
+    },
+    {
+        "id": "SEC-014",
+        "code": "def fetch_url(url):\n    import urllib.request\n    response = urllib.request.urlopen(url)\n    return response.read()",
+        "vulnerability": "SSRF",
+        "type": "security",
+        "severity": "High",
+        "description": "Server-Side Request Forgery allows internal network access",
+        "source": "CWE-918",
+        "reference": "https://cwe.mitre.org/data/definitions/918.html"
+    },
+    {
+        "id": "SEC-015",
+        "code": "def safe_function(data):\n    import re\n    if re.match(r'^[a-zA-Z0-9_]+$', data):\n        return process_data(data)\n    raise ValueError(\"Invalid input\")",
+        "vulnerability": "None",
+        "type": "security",
+        "severity": "None",
+        "description": "Properly validates input with whitelist approach",
+        "source": "Secure Code Example",
+        "reference": "N/A"
+    }
+]

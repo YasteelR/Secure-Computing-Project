@@ -1,0 +1,272 @@
+[
+    {
+        "id": "COMBINED-AUTH-001",
+        "code": "def authenticate_user(username, password):\n    import sqlite3\n    conn = sqlite3.connect('users.db')\n    query = f\"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'\"\n    result = conn.execute(query).fetchone()\n    conn.close()\n    return result",
+        "vulnerabilities": ["SQL Injection", "Plain Text Password Storage"],
+        "functional_issues": ["No Input Validation", "Poor Error Handling"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "Authentication Security"
+    },
+    {
+        "id": "COMBINED-UPLOAD-002",
+        "code": "def upload_file(filename, content):\n    import os\n    file_path = f\"/uploads/{filename}\"\n    with open(file_path, 'wb') as f:\n        f.write(content)\n    return file_path",
+        "vulnerabilities": ["Path Traversal", "Unrestricted File Upload"],
+        "functional_issues": ["No File Size Limit", "No File Type Validation"],
+        "type": "combined",
+        "severity": "High",
+        "category": "File Handling Security"
+    },
+    {
+        "id": "COMBINED-XML-003",
+        "code": "def process_xml(xml_string):\n    import xml.etree.ElementTree as ET\n    root = ET.fromstring(xml_string)\n    return root.find('data').text",
+        "vulnerabilities": ["XXE Injection", "XML Bomb"],
+        "functional_issues": ["No Error Handling", "Missing Null Checks"],
+        "type": "combined",
+        "severity": "High",
+        "category": "XML Processing"
+    },
+    {
+        "id": "COMBINED-CMD-004",
+        "code": "def execute_command(user_input):\n    import os\n    command = f\"ls -la {user_input}\"\n    result = os.system(command)\n    return result",
+        "vulnerabilities": ["Command Injection", "Shell Execution"],
+        "functional_issues": ["No Input Sanitization", "Poor Return Value Handling"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "Command Execution"
+    },
+    {
+        "id": "COMBINED-CRYPTO-005",
+        "code": "def hash_password(password):\n    import hashlib\n    return hashlib.md5(password.encode()).hexdigest()",
+        "vulnerabilities": ["Weak Hashing Algorithm", "No Salt"],
+        "functional_issues": ["No Input Validation", "Fixed Hash Algorithm"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Cryptography"
+    },
+    {
+        "id": "COMBINED-SESSION-006",
+        "code": "def create_user_session(user_id):\n    import uuid\n    session_id = str(uuid.uuid4())\n    sessions[session_id] = {'user_id': user_id, 'created': time.time()}\n    return session_id",
+        "vulnerabilities": ["Predictable Session ID", "No Session Expiry"],
+        "functional_issues": ["Global Variable Usage", "No Concurrent Access Control"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Session Management"
+    },
+    {
+        "id": "COMBINED-API-007",
+        "code": "def generate_api_key():\n    import random\n    import string\n    return ''.join(random.choices(string.ascii_letters + string.digits, k=32))",
+        "vulnerabilities": ["Weak Random Number Generation", "Predictable Keys"],
+        "functional_issues": ["No Key Length Validation", "Fixed Character Set"],
+        "type": "combined",
+        "severity": "High",
+        "category": "API Security"
+    },
+    {
+        "id": "COMBINED-DB-008",
+        "code": "def get_user_data(user_id, cache={}):\n    query = f\"SELECT * FROM users WHERE id = {user_id}\"\n    result = db.execute(query)\n    processed_data = []\n    for row in result:\n        processed_data.append({\n            'id': row[0],\n            'name': row[1],\n            'email': row[2]\n        })\n    return processed_data",
+        "vulnerabilities": ["SQL Injection", "Information Disclosure"],
+        "functional_issues": ["Inefficient Data Processing", "No Caching Implementation"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Database Operations"
+    },
+    {
+        "id": "COMBINED-SERIALIZE-009",
+        "code": "def serialize_user_data(user_data):\n    import pickle\n    return pickle.dumps(user_data)",
+        "vulnerabilities": ["Insecure Deserialization", "Code Injection"],
+        "functional_issues": ["No Input Validation", "Binary Format Issues"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "Data Serialization"
+    },
+    {
+        "id": "COMBINED-LOG-010",
+        "code": "def log_user_action(user_id, action, request):\n    import logging\n    logging.info(f\"User {user_id} performed {action} from {request.remote_addr}\")",
+        "vulnerabilities": ["Log Injection", "Information Leakage"],
+        "functional_issues": ["No Input Sanitization", "Missing Error Handling"],
+        "type": "combined",
+        "severity": "Low",
+        "category": "Logging"
+    },
+    {
+        "id": "COMBINED-DOWNLOAD-011",
+        "code": "def download_file(url, filename):\n    import urllib.request\n    urllib.request.urlretrieve(url, filename)\n    return f\"Downloaded {url} to {filename}\"",
+        "vulnerabilities": ["SSRF", "Path Traversal"],
+        "functional_issues": ["No Size Limit", "No URL Validation"],
+        "type": "combined",
+        "severity": "High",
+        "category": "File Download"
+    },
+    {
+        "id": "COMBINED-JWT-012",
+        "code": "def create_jwt_token(user_id, secret):\n    import jwt\n    import time\n    payload = {'user_id': user_id, 'exp': time.time() + 3600}\n    return jwt.encode(payload, secret, algorithm='HS256')",
+        "vulnerabilities": ["Weak Secret", "Algorithm Confusion"],
+        "functional_issues": ["No Input Validation", "Fixed Expiration"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Authentication"
+    },
+    {
+        "id": "COMBINED-VALIDATE-013",
+        "code": "def validate_email(email):\n    if '@' in email and '.' in email:\n        return True\n    return False",
+        "vulnerabilities": ["Bypass Validation", "Insufficient Checks"],
+        "functional_issues": ["Poor Regex Logic", "No Length Validation"],
+        "type": "combined",
+        "severity": "Low",
+        "category": "Input Validation"
+    },
+    {
+        "id": "COMBINED-READ-014",
+        "code": "def read_user_file(filename):\n    with open(filename, 'r') as f:\n        return f.read()",
+        "vulnerabilities": ["Path Traversal", "Arbitrary File Read"],
+        "functional_issues": ["No Size Limit", "No Error Handling"],
+        "type": "combined",
+        "severity": "High",
+        "category": "File Operations"
+    },
+    {
+        "id": "COMBINED-CONNECT-015",
+        "code": "def connect_to_database(host, port, username, password):\n    import psycopg2\n    conn = psycopg2.connect(\n        host=host,\n        port=port,\n        user=username,\n        password=password\n    )\n    return conn",
+        "vulnerabilities": ["Unencrypted Connection", "Credential Exposure"],
+        "functional_issues": ["No Connection Timeout", "No Error Handling"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Database Connection"
+    },
+    {
+        "id": "COMBINED-DECRYPT-016",
+        "code": "def decrypt_data(encrypted_data, key):\n    from cryptography.fernet import Fernet\n    cipher = Fernet(key)\n    decrypted = cipher.decrypt(encrypted_data)\n    return decrypted.decode()",
+        "vulnerabilities": ["Key Management", "Exception Leakage"],
+        "functional_issues": ["No Key Validation", "Poor Error Handling"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Encryption"
+    },
+    {
+        "id": "COMBINED-SEARCH-017",
+        "code": "def search_users(query):\n    import sqlite3\n    conn = sqlite3.connect('users.db')\n    sql = f\"SELECT * FROM users WHERE name LIKE '%{query}%'\"\n    results = conn.execute(sql).fetchall()\n    conn.close()\n    return results",
+        "vulnerabilities": ["SQL Injection", "Data Exposure"],
+        "functional_issues": ["Inefficient Query", "No Result Pagination"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Search Functionality"
+    },
+    {
+        "id": "COMBINED-CACHE-018",
+        "code": "def get_cached_data(key):\n    import pickle\n    with open(f'cache/{key}.pkl', 'rb') as f:\n        return pickle.load(f)",
+        "vulnerabilities": ["Path Traversal", "Deserialization Attack"],
+        "functional_issues": ["No Cache Validation", "File System Dependency"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Caching"
+    },
+    {
+        "id": "COMBINED-REDIRECT-019",
+        "code": "def redirect_user(url):\n    import flask\n    return flask.redirect(url)",
+        "vulnerabilities": ["Open Redirect", "Phishing Risk"],
+        "functional_issues": ["No URL Validation", "Missing Security Headers"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Web Security"
+    },
+    {
+        "id": "COMBINED-BACKUP-020",
+        "code": "def backup_database(backup_path):\n    import os\n    import shutil\n    os.system(f'mysqldump -u root database > {backup_path}')\n    return f'Backup created at {backup_path}'",
+        "vulnerabilities": ["Command Injection", "Credential Hardcoding"],
+        "functional_issues": ["No Path Validation", "Poor Error Handling"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "Database Backup"
+    },
+    {
+        "id": "COMBINED-PARSE-021",
+        "code": "def parse_json_config(json_string):\n    import json\n    config = json.loads(json_string)\n    database_url = config['database']['url']\n    return database_url",
+        "vulnerabilities": ["JSON Injection", "Data Exposure"],
+        "functional_issues": ["No Error Handling", "Missing Key Validation"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Configuration Parsing"
+    },
+    {
+        "id": "COMBINED-TEMPLATE-022",
+        "code": "def render_template(template_string, user_data):\n    import string\n    template = string.Template(template_string)\n    return template.substitute(user_data)",
+        "vulnerabilities": ["Template Injection", "Code Execution"],
+        "functional_issues": ["No Input Sanitization", "Poor Template Logic"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Template Rendering"
+    },
+    {
+        "id": "COMBINED-WEBHOOK-023",
+        "code": "def process_webhook(data):\n    import requests\n    import json\n    callback_url = data['callback_url']\n    response = requests.post(callback_url, json=data)\n    return response.status_code",
+        "vulnerabilities": ["SSRF", "Data Leakage"],
+        "functional_issues": ["No URL Validation", "Missing Timeout"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Webhook Processing"
+    },
+    {
+        "id": "COMBINED-FILTER-024",
+        "code": "def filter_user_input(user_input):\n    dangerous_chars = ['<', '>', '\"', \"'\"]\n    for char in dangerous_chars:\n        user_input = user_input.replace(char, '')\n    return user_input",
+        "vulnerabilities": ["Insufficient Filtering", "Bypass Potential"],
+        "functional_issues": ["Character Loss", "Incomplete Sanitization"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Input Filtering"
+    },
+    {
+        "id": "COMBINED-MONITOR-025",
+        "code": "def monitor_system(command):\n    import subprocess\n    result = subprocess.run(command, shell=True, capture_output=True, text=True)\n    return result.stdout",
+        "vulnerabilities": ["Command Injection", "Shell Execution"],
+        "functional_issues": ["No Command Validation", "Missing Error Handling"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "System Monitoring"
+    },
+    {
+        "id": "COMBINED-EXPORT-026",
+        "code": "def export_user_data(user_id, format):\n    import json\n    import csv\n    data = get_user_data(user_id)\n    if format == 'json':\n        return json.dumps(data)\n    elif format == 'csv':\n        return '\\n'.join([','.join(row) for row in data])\n    return str(data)",
+        "vulnerabilities": ["Information Disclosure", "Format String"],
+        "functional_issues": ["No Format Validation", "Poor CSV Handling"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "Data Export"
+    },
+    {
+        "id": "COMBINED-RESET-027",
+        "code": "def reset_password(email):\n    import random\n    import string\n    new_password = ''.join(random.choices(string.ascii_letters, k=8))\n    update_user_password(email, new_password)\n    send_email(email, f'Your new password is: {new_password}')\n    return 'Password reset successfully'",
+        "vulnerabilities": ["Weak Password Generation", "Plaintext Transmission"],
+        "functional_issues": ["No Email Validation", "Poor Random Generation"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Password Management"
+    },
+    {
+        "id": "COMBINED-COMPRESS-028",
+        "code": "def compress_file(filename):\n    import zipfile\n    import os\n    with zipfile.ZipFile(f'{filename}.zip', 'w') as zipf:\n        zipf.write(filename)\n    os.remove(filename)\n    return f'{filename}.zip'",
+        "vulnerabilities": ["Path Traversal", "Zip Bomb"],
+        "functional_issues": ["No File Validation", "Missing Error Handling"],
+        "type": "combined",
+        "severity": "Medium",
+        "category": "File Compression"
+    },
+    {
+        "id": "COMBINED-PROXY-029",
+        "code": "def proxy_request(target_url, headers):\n    import requests\n    response = requests.get(target_url, headers=headers)\n    return response.content",
+        "vulnerabilities": ["SSRF", "Header Injection"],
+        "functional_issues": ["No URL Validation", "Missing Timeout"],
+        "type": "combined",
+        "severity": "High",
+        "category": "Proxy Functionality"
+    },
+    {
+        "id": "COMBINED-SCHEDULE-030",
+        "code": "def schedule_task(task_command, schedule_time):\n    import os\n    import datetime\n    cron_entry = f'{schedule_time} {task_command}'\n    os.system(f'echo \"{cron_entry}\" | crontab -')\n    return f'Task scheduled: {task_command}'",
+        "vulnerabilities": ["Command Injection", "Privilege Escalation"],
+        "functional_issues": ["No Schedule Validation", "Poor Command Handling"],
+        "type": "combined",
+        "severity": "Critical",
+        "category": "Task Scheduling"
+    }
+]
